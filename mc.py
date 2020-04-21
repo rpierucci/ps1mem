@@ -1,4 +1,4 @@
-from tkinter import *
+import tkinter as tk
 from tkinter import filedialog
 import os
 import io
@@ -7,22 +7,26 @@ import binascii
 import array
 
 folderPath = 'C:/'
+root = tk.Tk()
+folderPathLabel = tk.Label(root, text=folderPath)
 files = []
 
 def loadConfig():
     try:
         file = open(os.path.join(os.path.dirname(__file__), 'settings.txt'), 'r')
         with file:
-            folderPath = file.readline()
-            
+            folderPathLabel['text'] = file.readline()
     except:
         print('settings not found')
         pass
 
 def setMemoryCardDirectory():
-    folder = filedialog.askdirectory(initialdir=folderPath)
-    for files in os.walk(folder):
-        print(files)
+    folderPath = filedialog.askdirectory(initialdir='C:/')
+    file = open(os.path.join(os.path.dirname(__file__), 'settings.txt'), 'w')
+    file.write(folderPath)
+    folderPathLabel['text'] = folderPath
+    # for files in os.walk(folder):
+    #     print(files)
 
 def scanMemoryCards():
     countryCode = None
@@ -104,27 +108,25 @@ def window(root):
     root.title('PS1 Mem Organizer')
     root.geometry('1280x720')
 
-    menu = Menu(root)
-    fileMenu = Menu(menu, tearoff=0)
+    menu = tk.Menu(root)
+    fileMenu = tk.Menu(menu, tearoff=0)
     fileMenu.add_command(label='Set MCR Directory', command=setMemoryCardDirectory)
     fileMenu.add_command(label='Scan MCR Files', command=scanMemoryCards)
     fileMenu.add_command(label='Exit', command=exitProgram)
     menu.add_cascade(label='File', menu=fileMenu)
 
-    helpMenu = Menu(menu, tearoff=0)
+    helpMenu = tk.Menu(menu, tearoff=0)
     helpMenu.add_command(label='About', command=about)
     menu.add_cascade(label="Help", menu=helpMenu)
 
     root.config(menu=menu)
-
-    directoryLabel = Label(root, text="MCR Directory")
-    directoryLabelSet = Label(root, text=folderPath)
-    directoryLabel.place(relx=1.0, rely=1.0, anchor='se')
-    directoryLabelSet.place(relx=0.0, rely=1.0, anchor='sw')
+    
+   
+    folderPathLabel.place(relx=1.0, rely=1.0, anchor='se')
 
 loadConfig()
 
-root = Tk()
+
 window(root)
 root.mainloop()
 
