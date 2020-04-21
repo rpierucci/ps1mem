@@ -1,8 +1,7 @@
-from Tkinter import *
+from tkinter import *
 import os
 import io
 import codecs
-import tkFileDialog
 import binascii
 import array
 
@@ -16,13 +15,13 @@ def loadConfig():
             folderPath = file.readline()
             
     except:
-        print 'settings not found'
+        print('settings not found')
         pass
 
 def setMemoryCardDirectory():
-    folder = tkFileDialog.askdirectory(initialdir=folderPath)
+    folder = fileDialog.askdirectory(initialdir=folderPath)
     for root, subdirs, files in os.walk(folder):
-        print files
+        print(files)
 
 def scanMemoryCards():
     countryCode = None
@@ -33,14 +32,7 @@ def scanMemoryCards():
     saveTitle = None
     bitmap = None
 
-    # with io.open("C:\\Users\\Robert\\Desktop\\Namco Museum Vol. 1 (USA).srm", mode='r', encoding='shiftjis') as file:
-    #     file.seek(0x02004)
-    #     lines = file.read(1)
-    #     print lines
-    
-
-    filePath = "C:\\Users\\Robert\\Desktop\\test.mcr"
-    file = open(filePath, "rb")
+    file = open(os.path.join(os.path.dirname(__file__), 'test.mcr'), 'rb')
     with file:
         file.seek(0x0008A)
         byte = file.read(2)
@@ -73,13 +65,10 @@ def scanMemoryCards():
         decimal = int(hexadecimal, 16)
         binary = bin(decimal)[2:].zfill(8)
 
-        print (0b10101100) & 0x1F << 3
-        print ((0b11111001) & 0x3 << 6) | ((0b10101100) & 0xE0 >> 2)
-        print ((0b11111001) & 0x7C) << 1
-        print ((0b11111001) & 0x80)
-
-        
-
+        print((0b10101100) & 0x1F << 3)
+        print(((0b11111001) & 0x3 << 6) | ((0b10101100) & 0xE0 >> 2))
+        print(((0b11111001) & 0x7C) << 1)
+        print(((0b11111001) & 0x80))
 
         # file.seek(0x02080)
         # byte = file.read(128)
@@ -93,12 +82,12 @@ def scanMemoryCards():
 
 
 
-    print "Country Code: " + countryCode
-    print "Product Code: " + productCode
-    print "Identifier: " + identifier
-    print "File Name: " + countryCode + productCode + identifier
-    print "Icon Display Flag: " + iconDisplayFlag
-    print "Block Count: " + blockCount
+    print("Country Code: " + str(countryCode))
+    print("Product Code: " + str(productCode))
+    print("Identifier: " + str(identifier))
+    print("File Name: " + str(countryCode) + str(productCode) + str(identifier))
+    print("Icon Display Flag: " + str(iconDisplayFlag))
+    print("Block Count: " + str(blockCount))
     # print "Save Title: " + saveTitle
     # print "Bitmap: " + bitmap
 
