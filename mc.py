@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import filedialog
 import os
 import io
 import codecs
@@ -19,8 +20,8 @@ def loadConfig():
         pass
 
 def setMemoryCardDirectory():
-    folder = fileDialog.askdirectory(initialdir=folderPath)
-    for root, subdirs, files in os.walk(folder):
+    folder = filedialog.askdirectory(initialdir=folderPath)
+    for files in os.walk(folder):
         print(files)
 
 def scanMemoryCards():
